@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\todo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class todoController extends Controller
 {
@@ -15,14 +16,14 @@ class todoController extends Controller
         if ($todo -> count() > 0){
 
             return response()->json([
-                "status" => 200 ,
-                "todo" =>  $todo
+                'status' => 200 ,
+                'todo' =>  $todo
             ],200);
         }else{
-            
+
             return response()->json([
-                "status" => 200 ,
-                "todo" => 'No Records Found'
+                'status' => 200 ,
+                'todo' => 'No Records Found'
             ],200);
         }
         
@@ -41,7 +42,32 @@ class todoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request -> all() , [
+            'nameTask' => 'required|String|max:200',
+            'completed' => 'required|boolean',
+        ]); 
+        if($validator ->fails()){
+           return response()->json([
+            'status' => 422,
+            'error' => $validator -> messages()
+           ]) ;
+        }else{
+            $todo = todo::create([
+            'nameTask' => $request -> nameTask,
+            'completed' => $request -> completed,
+            ]);
+            if ($todo){
+                return response()->json([
+                    'status' => 200 ,
+                    'message' => 'created successfully' 
+                ],200);
+            }else{
+                return response()->json([
+                    'status' => 500 ,
+                    'message' =>  'something wrong'
+                ],200);
+            }
+        }
     }
 
     /**
