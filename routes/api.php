@@ -24,3 +24,5 @@ Route::post('/todo' , [todoController::class , 'store']);
 Route::get('/todo/{id}' , [todoController::class , 'show']);
 Route::get('/todo/{id}/edit' , [todoController::class , 'edit']);
 Route::put('/todo/{id}/edit' , [todoController::class , 'update']);
+Route::delete('/todo/{id}' , [todoController::class , 'destroy']);
+
