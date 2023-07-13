@@ -94,7 +94,18 @@ class todoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $todo = todo::find($id);
+        if($todo){
+            return response()->json([
+                'status' => 200 ,
+                'todo' => $todo 
+            ],200);
+        }else{
+            return response()->json([
+                'status' => 404 ,
+                'message' =>  'No such Found!'
+            ],200);
+        }
     }
 
     /**
