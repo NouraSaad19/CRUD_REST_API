@@ -113,7 +113,34 @@ class todoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request -> all() , [
+            'nameTask' => 'required|String|max:200',
+            'completed' => 'required|boolean',
+        ]); 
+        if($validator ->fails()){
+           return response()->json([
+            'status' => 422,
+            'error' => $validator -> messages()
+           ]) ;
+        }else{
+            $todo = todo::find($id);
+            $todo -> update([
+            'nameTask' => $request -> nameTask,
+            'completed' => $request -> completed,
+            ]);
+            if ($todo){
+                return response()->json([
+                    'status' => 200 ,
+                    'message' => 'update successfully' 
+                ],200);
+            }else{
+                return response()->json([
+                    'status' => 500 ,
+                    'message' =>  'something wrong'
+                ],200);
+            }
+        }
+        
     }
 
     /**
