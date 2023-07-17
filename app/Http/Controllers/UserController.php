@@ -42,17 +42,14 @@ class UserController extends Controller
     public function updateProfile(Request $request){
 
         $validatedData = $request -> validate([
-            'name' => 'required',
-            'email'=> 'required|unique:users',
+            'name'=> 'required',
+            'email'=> 'unique:users,email,'.auth()->id(),
         ]);
         
-    
-        if($validatedData){
-            $user -> password =bcrypt($validatedData['new_password']);
-            if($user -> save()){
+        if(auth()->user()->update($validatedData)){
                 return response()->json([
-                    'status' => 401 ,
-                    'message' => 'Your current password is change',
+                    'status' => 200 ,
+                    'message' => 'update successfully',
                 ],200);
             }else{
                 return response()->json([
@@ -62,4 +59,4 @@ class UserController extends Controller
             }
         }
     }
-}
+
