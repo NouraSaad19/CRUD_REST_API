@@ -13,14 +13,12 @@ class todoController extends Controller
     public function index()
     {
         $todo = todo::all();
-        if ($todo -> count() > 0){
-
+        if (!empty($todo)){
             return response()->json([
                 'status' => 200 ,
                 'todo' =>  $todo
             ],200);
         }else{
-
             return response()->json([
                 'status' => 200 ,
                 'todo' => 'No Records Found'
