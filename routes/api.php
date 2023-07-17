@@ -19,6 +19,10 @@ use App\Http\Controllers\todoController;
 
 Route::post('register' , [AuthController::class , 'register']);
 Route::post('login' , [AuthController::class , 'login']);
+Route::middleware('api:auth')->prefix('user')->group(function(){
+    Route::post('update/password' , [AuthController::class , 'login']);
+    Route::post('update/profile' , [AuthController::class , 'login']);
+});
 Route::get('/todo' , [todoController::class , 'index']);
 Route::post('/todo' , [todoController::class , 'store']);
 Route::get('/todo/{id}' , [todoController::class , 'show']);
