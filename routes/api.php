@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\todoController;
+use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +21,9 @@ use App\Http\Controllers\todoController;
 
 Route::post('register' , [AuthController::class , 'register']);
 Route::post('login' , [AuthController::class , 'login']);
-Route::middleware('api:auth')->prefix('user')->group(function(){
-    Route::post('update/password' , [AuthController::class , 'login']);
-    Route::post('update/profile' , [AuthController::class , 'login']);
+Route::middleware('auth:api')->prefix('user')->group(function(){
+    Route::post('update/password' , [UserController::class , 'updatePassword']);
+    Route::post('update/profile' , [UserController::class , 'updateProfile']);
 });
 Route::get('/todo' , [todoController::class , 'index']);
 Route::post('/todo' , [todoController::class , 'store']);
